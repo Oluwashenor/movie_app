@@ -6,9 +6,11 @@ class MovieCard extends StatelessWidget {
   const MovieCard({
     super.key,
     required this.movie,
+    this.isDetails = false,
   });
 
   final Movie movie;
+  final isDetails;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,8 @@ class MovieCard extends StatelessWidget {
         title: Text(movie.title as String),
         subtitle: Text('Director : ${movie.director}'),
         leading: CircleAvatar(
-          child: Text(movie.title?[0] as String),
+          backgroundImage: NetworkImage(movie.images?[0] as String),
+          //child: Text(movie.title?[0] as String),
         ),
         children: [
           Container(
@@ -44,15 +47,17 @@ class MovieCard extends StatelessWidget {
                               ?.copyWith(fontWeight: FontWeight.bold)),
                       TextSpan(text: '${movie.plot}')
                     ])),
-                TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  MovieDetails(movie: movie)));
-                    },
-                    child: const Text('Read More'))
+                isDetails
+                    ? const Text("")
+                    : TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      MovieDetails(movie: movie)));
+                        },
+                        child: const Text('Read More'))
               ],
             ),
           )
